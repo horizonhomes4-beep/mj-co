@@ -1,0 +1,47 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Order — MJ & CO</title><link rel="icon" href="https://mj-and-co-testy-eating.vercel.app/logo.jpg"><link rel="stylesheet" href="style.css"></head><body><div id="nav"></div>
+<main class="w"><h2 class="t" style="margin-bottom:0">Place Your Order</h2><p style="text-align:center;color:#7a6672">Order online • Pay by bank transfer • Confirm on WhatsApp</p>
+<div id="done" style="display:none;max-width:640px;margin:20px auto"></div>
+<div class="lay" id="shop"><div><label for="sq" class="sr">Search the menu</label><input id="sq" type="search" placeholder="🔍 Search yogurt, parfait, granola…" autocomplete="off"><p id="rc" aria-live="polite" style="margin-top:8px;color:#7a6672;font-size:.9rem"></p><div class="chips" id="chips" role="group" aria-label="Categories"></div><div class="grid" id="grid"><p>Loading menu…</p></div>
+<div class="gal" style="margin-top:26px"><div class="frame"><img src="https://mj-and-co-testy-eating.vercel.app/m6.jpg" alt=""></div><div class="frame"><video src="https://mj-and-co-testy-eating.vercel.app/sample-video.mp4" muted loop autoplay playsinline></video></div></div></div>
+<aside class="sticky" id="sum"><div class="box"><h3>Order Summary</h3><div id="lines" aria-live="polite"><small>Your cart is empty</small></div>
+<div class="row"><span>Subtotal</span><b id="sub">₦0</b></div><div class="row"><span>Delivery</span><b id="fee">₦0</b></div><div class="row tot"><span>Total</span><span id="tot">₦0</span></div></div>
+<div class="box"><h3>Contact & Delivery</h3><label>Full name *</label><input id="nm"><label>Phone (WhatsApp) *</label><input id="ph" type="tel" placeholder="080..."><label>Delivery option</label><select id="me"><option>Delivery</option><option>Pickup</option></select>
+<div id="adw"><label>Delivery address *</label><textarea id="ad" rows="2"></textarea></div><label>Payment</label><select id="pm"><option>Bank Transfer</option><option>Pay on Delivery</option></select>
+<label>Special instructions (optional)</label><textarea id="nt" rows="2"></textarea><p id="er" style="color:#c00"></p><button class="btn" id="go" style="width:100%;margin-top:10px">Place Order</button></div></aside></div></main><a class="fcart" href="#sum" aria-label="View cart and checkout">🛒 <b id="fc">0</b> items · <b id="ft">₦0</b> — Checkout</a><dialog id="lb" aria-label="Item preview"></dialog><div id="foot"></div>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script><script src="app.js"></script>
+<script>
+let P={},S={},cart={},cat="All";
+(async()=>{try{P=await getProducts()}catch(e){P={};DEFAULTS.forEach((p,i)=>P["p"+(i+1)]={name:p[0],category:p[1],price:p[2],image:p[3],available:true})}
+try{S=await getSettings()}catch(e){S={bankName:"Set bank in admin",accNo:"0000000000",accName:"MJ & CO",deliveryFee:1000}}draw();sum()})();
+let q="";
+function draw(){const L=Object.entries(P).filter(([k,p])=>p.available!==false),cs=["All",...new Set(L.map(([k,p])=>p.category))];
+$("#chips").innerHTML=cs.map(c=>{const n=c=="All"?L.length:L.filter(([k,p])=>p.category==c).length;return `<button type="button" class="chip ${c==cat?"on":""}" data-c="${esc(c)}" aria-pressed="${c==cat}">${esc(c)} (${n})</button>`}).join("");
+const F=L.filter(([k,p])=>(cat=="All"||p.category==cat)&&(!q||(p.name+" "+p.category).toLowerCase().includes(q)));
+$("#rc").textContent=F.length+" item"+(F.length==1?"":"s")+" shown";
+$("#grid").innerHTML=F.map(([k,p])=>card(k,p)).join("")||"<p>No items match your search. Try another word or choose All.</p>"}
+const card=(k,p)=>`<article class="card"><button type="button" class="im" data-z="${k}" aria-label="View ${esc(p.name)} larger"><img loading="lazy" src="${esc(IMG(p.image))}" alt="${esc(p.name)}" onerror="this.src=IMG('logo.jpg')"></button><div class="b"><b>${esc(p.name)}</b><small>${esc(p.category)}</small><span class="price">${N(p.price)}</span><div class="q"><button type="button" data-k="${k}" data-d="-1" aria-label="Remove one ${esc(p.name)}">−</button><b id="q${k}" aria-live="polite">${cart[k]||0}</b><button type="button" class="add" data-k="${k}" data-d="1" aria-label="Add one ${esc(p.name)}">+ Add</button></div></div></article>`;
+$("#sq").oninput=e=>{q=e.target.value.trim().toLowerCase();draw()};
+document.addEventListener("click",e=>{const z=e.target.closest("[data-z]");if(z){const k=z.dataset.z,p=P[k];$("#lb").innerHTML=`<img src="${esc(IMG(p.image))}" alt="${esc(p.name)}" onerror="this.src=IMG('logo.jpg')"><h3>${esc(p.name)}</h3><p>${esc(p.category)} · <span class="price">${N(p.price)}</span></p><div class="acts"><button class="btn" data-k="${k}" data-d="1" onclick="this.closest('dialog').close()">+ Add to cart</button><button class="btn alt" onclick="this.closest('dialog').close()">Close</button></div>`;$("#lb").showModal()}});
+document.addEventListener("click",e=>{const t=e.target;if(t.dataset.c){cat=t.dataset.c;draw()}if(t.dataset.k){const k=t.dataset.k;cart[k]=Math.max(0,(cart[k]||0)+ +t.dataset.d);if(!cart[k])delete cart[k];$("#q"+k).textContent=cart[k]||0;sum()}});
+const items=()=>Object.entries(cart).map(([k,q])=>({id:k,name:P[k].name,price:P[k].price,qty:q}));
+function sum(){const it=items(),sub=it.reduce((a,i)=>a+i.price*i.qty,0),fee=it.length&&$("#me").value=="Delivery"?+S.deliveryFee:0;
+$("#lines").innerHTML=it.length?it.map(i=>`<div class="row"><span>${i.qty} × ${esc(i.name)}</span><span>${N(i.price*i.qty)}</span></div>`).join(""):"<small>Your cart is empty</small>";
+$("#sub").textContent=N(sub);$("#fee").textContent=N(fee);$("#tot").textContent=N(sub+fee);$("#adw").style.display=$("#me").value=="Delivery"?"":"none";$("#fc").textContent=it.reduce((a,i)=>a+i.qty,0);$("#ft").textContent=N(sub+fee);$(".fcart").classList.toggle("show",it.length>0);return{sub,fee,total:sub+fee}}
+$("#me").onchange=sum;
+$("#go").onclick=async()=>{const er=$("#er");er.textContent="";const it=items(),t=sum(),ph=phone($("#ph").value);
+if(!it.length)return er.textContent="Please add at least one item.";if(!$("#nm").value.trim())return er.textContent="Enter your name.";if(ph.length<11)return er.textContent="Enter a valid phone number.";
+if($("#me").value=="Delivery"&&!$("#ad").value.trim())return er.textContent="Enter your delivery address.";
+const b=$("#go");b.disabled=true;b.textContent="Placing order…";
+try{const c=await db.ref("counters/orders").transaction(v=>(v||0)+1),d=new Date(),
+no="MJ-"+String(c.snapshot.val()).padStart(4,"0"),ref="MJC-"+d.toISOString().slice(2,10).replace(/-/g,"")+"-"+Math.random().toString(36).slice(2,6).toUpperCase(),
+o={no,ref,createdAt:Date.now(),name:$("#nm").value.trim(),phone:ph,method:$("#me").value,address:$("#me").value=="Delivery"?$("#ad").value.trim():"",notes:$("#nt").value.trim(),pay:$("#pm").value,items:it,...t,status:"pending",payClaimed:false},
+r=db.ref("orders").push();await r.set(o);done(o,r)}catch(e){er.textContent="Could not place order. Please try again.";b.disabled=false;b.textContent="Place Order"}};
+function done(o,r){$("#shop").style.display="none";const bank=o.pay=="Bank Transfer",D=$("#done");D.style.display="block";scrollTo(0,0);
+const msg=`Hello MJ & CO, I just placed an order.\nOrder No: ${o.no}\nReference: ${o.ref}\nName: ${o.name}\n${o.items.map(i=>`${i.qty} x ${i.name}`).join("\n")}\nTotal: ${N(o.total)}\n${o.method}${o.address?": "+o.address:""}\nPayment: ${o.pay}${o.notes?"\nNote: "+o.notes:""}`;
+D.innerHTML=`<div class="ok"><h3>✅ Order received!</h3><p>Order No</p><div class="big">${esc(o.no)}</div><p>Reference: <b>${esc(o.ref)}</b></p><p>Status: <span class="tag pending" id="st">pending</span></p><p>Total: <b>${N(o.total)}</b></p>
+${bank?`<div class="box" style="margin-top:12px"><b>Pay to this account</b><br>${esc(S.bankName)}<br><span class="big">${esc(S.accNo)}</span><br>${esc(S.accName)}<br><small>Use <b>${esc(o.no)}</b> as the transfer narration.</small></div>`:`<p>You will pay on ${o.method=="Delivery"?"delivery":"pickup"}.</p>`}
+<div class="acts"><a class="btn g" target="_blank" href="${wa(CFG.whatsapp,msg+(bank?"\nI have made payment. Receipt attached.":""))}" id="wb">${bank?"I've paid — send receipt on WhatsApp":"Send order on WhatsApp"}</a><button class="btn alt" id="pd">Download PDF invoice</button></div>
+<p><small>Keep your Order No and Reference. We will message you on WhatsApp once payment is confirmed.</small></p></div>`;
+$("#pd").onclick=()=>pdf(o);$("#wb").onclick=()=>r.update({payClaimed:bank});
+r.child("status").on("value",s=>{const v=s.val()||"pending",e=$("#st");e.textContent=v=="paid"?"payment confirmed":v;e.className="tag "+v})}
+</script></body></html>
