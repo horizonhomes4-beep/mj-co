@@ -63,7 +63,7 @@ const $=s=>document.querySelector(s),N=n=>"₦"+Number(n||0).toLocaleString(),es
 const phone=p=>{p=String(p).replace(/\D/g,"");return p.startsWith("0")?"234"+p.slice(1):p},wa=(n,m)=>`https://wa.me/${phone(n)}?text=${encodeURIComponent(m)}`;
 let S={bankName:"Zenith Bank",accNo:"0123456789",accName:"MJ & CO",deliveryFee:300};
 db.ref("settings").once("value").then(s=>{const v=s.val()||{};Object.keys(v).forEach(k=>{if(v[k]!==""&&v[k]!=null)S[k]=v[k]});sum()}).catch(()=>{});
-const PRODUCTS=[
+const FALLBACK=[
 {id:'greek',title:'Greek Yogurt (500 ml)',price:1200,tag:'yogurt',desc:'Thick, rich, and protein-packed Greek yogurt—perfectly smooth and refreshing.',img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSbe-EVNYGlLGh4FO1QjDyJLxkCpKsrYjxHQ&s'},
 {id:'parfait',title:'Fruit Parfait',price:1600,tag:'parfait',desc:'Creamy yogurt layered with crunchy granola and a medley of fresh fruits for a wholesome delight.',img:'https://feelgoodfoodie.net/wp-content/uploads/2024/11/Fruit-Yogurt-Parfait-11.jpg'},
 {id:'granola',title:'Granola Bowl',price:900,tag:'granola',desc:'A crunchy mix of golden oats, nuts, and honey—best enjoyed with milk or yogurt.',img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwmfXUDTOOERyxIClG0hiSIw1jsPfm8_uTHA&s'},
@@ -80,8 +80,9 @@ const PRODUCTS=[
 {id:'chops2',title:'Chops Box B',price:2000,tag:'chops',desc:'Puff × 4, Samosa × 1, Spring Roll × 1, Mosa × 2 — the perfect tasty combo.',img:'chops.jpg'},
 {id:'chops3',title:'Chops Box C',price:2500,tag:'chops',desc:'Puff × 4, Samosa × 1, Spring Roll × 1, Chicken / Beef × 1 — party favorite mix.',img:'chops.jpg'},
 {id:'chops4',title:'Chops Box D',price:3500,tag:'chops',desc:'Puff × 3, Samosa × 1, Spring Roll × 1, Chicken / Beef Kebab × 1 — rich and spicy delight.',img:'chops.jpg'}];
+let PRODUCTS=FALLBACK.slice();
 const cart={};let cat="all",q="";
-const CATS=["all","yogurt","parfait","granola","flakes","chops"];
+let CATS=["all","yogurt","parfait","granola","flakes","chops"];
 function chips(){$("#chips").innerHTML=CATS.map(c=>{const n=c=="all"?PRODUCTS.length:PRODUCTS.filter(p=>p.tag==c).length;return `<button type="button" class="chip ${c==cat?"on":""}" data-f="${c}" aria-pressed="${c==cat}">${c[0].toUpperCase()+c.slice(1)} (${n})</button>`}).join("")}
 const card=p=>`<article class="pr"><button type="button" class="im" data-z="${p.id}" aria-label="View ${esc(p.title)} larger"><img loading="lazy" src="${esc(IMG(p.img))}" alt="${esc(p.title)}" onerror="this.src=IMG('logo.jpg')"></button><div class="mt"><span class="tg">${p.tag}</span><h3>${esc(p.title)}</h3><p>${esc(p.desc)}</p><div class="ft"><b class="pc">${N(p.price)}</b><div class="qc"><button type="button" data-id="${p.id}" data-d="-1" aria-label="Remove one ${esc(p.title)}">−</button><span id="qty-${p.id}" aria-live="polite">${cart[p.id]||0}</span><button type="button" class="ad" data-id="${p.id}" data-d="1" aria-label="Add one ${esc(p.title)}">+</button></div></div></div></article>`;
 function draw(){const F=PRODUCTS.filter(p=>(cat=="all"||p.tag==cat)&&(p.title+" "+p.desc+" "+p.tag).toLowerCase().includes(q));chips();$("#rc").textContent=F.length+" of "+PRODUCTS.length+" items shown";$("#grid").innerHTML=F.map(card).join("")||'<p class="emp">No items match your search. Clear it or choose All.</p>'}
@@ -125,5 +126,8 @@ r.child("status").on("value",s=>{const v=s.val()||"pending",e=$("#os");if(e){e.t
 Object.keys(cart).forEach(k=>delete cart[k]);draw();sum();D.scrollIntoView({behavior:"smooth",block:"start"})}
 $("#b1").onclick=()=>place(false);$("#b2").onclick=()=>place(true);
 $("#b3").onclick=async()=>{try{const o=gather(false);o.no="DRAFT";window.open(URL.createObjectURL(await makePDF(o)),"_blank")}catch(e){$("#st").className="err";$("#st").textContent=e.message}};
-draw();sum();
+let loaded=false;$("#grid").innerHTML='<p class="emp">Loading menu…</p>';
+function applyMenu(L){PRODUCTS=L;CATS=["all",...new Set(L.map(p=>p.tag))];if(cat!="all"&&!CATS.includes(cat))cat="all";Object.keys(cart).forEach(k=>{if(!L.some(p=>p.id==k))delete cart[k]});loaded=true;draw();sum()}
+db.ref("menu").on("value",s=>{const v=s.val();if(v&&v.managed)applyMenu(Object.entries(v.items||{}).map(([id,p])=>({id,title:p.title||"Item",price:+p.price||0,tag:String(p.tag||"other").toLowerCase(),desc:p.desc||"",img:p.img||"",order:+p.order||0,on:p.available!==false})).filter(p=>p.on).sort((a,b)=>a.order-b.order));else applyMenu(FALLBACK.slice())},()=>{if(!loaded)applyMenu(FALLBACK.slice())});
+setTimeout(()=>{if(!loaded)applyMenu(FALLBACK.slice())},6000);
 </script></body></html>
