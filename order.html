@@ -1,5 +1,5 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#fff8f2"><title>Order — MJ & CO</title>
-<link rel="icon" href="https://mj-and-co-testy-eating.vercel.app/logo.jpg"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" href="https://mj-and-co-testy-eating.vercel.app/logo.jpg"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Bricolage+Grotesque:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--a:#ff7a00;--a2:#ff4d00;--g:#047857;--b:#1e40af;--bg:#fff8f2;--m:#6b7280;--r:18px;--sh:0 10px 30px #10182814}
 *{box-sizing:border-box;margin:0}body{font:15px/1.55 Inter,system-ui,sans-serif;background:linear-gradient(180deg,#fff,var(--bg));color:#1f2937}
@@ -34,12 +34,48 @@ label.l{font-size:.8rem;font-weight:700;color:#4b5563;margin-bottom:-4px}.acts{d
 .fc{display:none;position:fixed;left:12px;right:12px;bottom:12px;z-index:30;background:linear-gradient(90deg,var(--a),var(--a2));color:#fff;text-align:center;padding:14px;border-radius:99px;font-weight:700;text-decoration:none;box-shadow:0 8px 24px #0005}@media(max-width:980px){.fc.show{display:block}}
 dialog{border:0;border-radius:var(--r);padding:16px;max-width:min(92vw,460px)}dialog::backdrop{background:#000a}dialog img{border-radius:12px;width:100%;max-height:60vh;object-fit:cover;margin-bottom:10px}
 footer{text-align:center;padding:20px;font-weight:700}:focus-visible{outline:3px solid #ffb861;outline-offset:2px}@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* ===== storefront polish ===== */
+:root{--sh:0 12px 34px #ff7a001c,0 2px 8px #1018280d;--glow:0 14px 34px #ff7a0040}
+body{background:radial-gradient(900px 420px at 88% -90px,#ffd2a699,transparent 70%),radial-gradient(700px 420px at -8% 18%,#bbf7d055,transparent 70%),linear-gradient(180deg,#fffdfb,#fff6ec);background-attachment:fixed}
+h1,h2,h3,.brand b{font-family:"Bricolage Grotesque",Inter,sans-serif}
+.hd{background:#ffffffd9;backdrop-filter:blur(12px) saturate(1.4);border-bottom:1px solid #ffe3c9;box-shadow:0 4px 20px #ff7a0012}
+.btn{background:linear-gradient(180deg,#ff9a3c,#ff6a00);box-shadow:0 8px 20px #ff7a0040,inset 0 1px 0 #ffffff66}.btn:hover{filter:brightness(1.06)}.btn.gh{background:#fff;box-shadow:none}.btn.g{background:linear-gradient(180deg,#34e07f,#16a34a)}
+.cartp{display:inline-flex;gap:6px;align-items:center;background:#fff;border:1px solid #ffd9b8;color:#c2410c;text-decoration:none;font-weight:800;padding:8px 14px;border-radius:99px;box-shadow:0 4px 12px #ff7a001f}
+.hero{position:relative;overflow:hidden;border-radius:26px;padding:28px 30px;margin-bottom:20px;color:#fff;background:linear-gradient(120deg,#ff9a2e,#ff5a1a 58%,#e8432a);box-shadow:var(--glow);display:flex;gap:20px;align-items:center;justify-content:space-between}
+.hero:before{content:"";position:absolute;width:420px;height:420px;right:-120px;top:-200px;background:radial-gradient(circle,#ffffff66,transparent 65%)}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,#ffffff2e 0,#ffffff00 42%);pointer-events:none}
+.hero>*{position:relative;z-index:1}.hero h1{font-size:clamp(1.5rem,3.4vw,2.3rem);line-height:1.1;max-width:15em;color:#fff;text-shadow:0 2px 12px #7c2d1240}.hero p{margin:8px 0 14px;opacity:.95;max-width:34em;color:#fff;font-weight:500}
+.bdg{display:flex;gap:8px;flex-wrap:wrap}.bdg span{background:#ffffff2e;border:1px solid #ffffff55;backdrop-filter:blur(6px);padding:5px 12px;border-radius:99px;font-size:.8rem;font-weight:600}
+.hero img{width:104px;height:104px;border-radius:50%;object-fit:cover;border:4px solid #fff;box-shadow:0 0 0 6px #ffffff40,0 12px 28px #7c2d1255;flex:none}
+.shop .ctl{margin:0 0 6px}.shop .ctl input{background:#fff;box-shadow:var(--sh);border:1px solid #ffe9d6;padding:13px 20px}.shop .ctl select{width:auto;border-radius:99px;padding:12px 16px;box-shadow:var(--sh);border:1px solid #ffe9d6;font-weight:600}
+.chip{box-shadow:0 2px 8px #1018280a}.chip.on{background:linear-gradient(180deg,#ff9a3c,#ff6a00);box-shadow:0 6px 16px #ff7a004d}
+.grid{grid-template-columns:repeat(auto-fill,minmax(205px,1fr));gap:18px}
+.pr{flex-direction:column;gap:0;padding:0;overflow:hidden;position:relative;background:#fff;border:1px solid #ffe9d6;border-radius:22px;box-shadow:0 6px 18px #1018280d;transition:transform .25s,box-shadow .25s,border-color .25s}
+.pr:hover{transform:translateY(-4px);box-shadow:var(--glow)}
+.pr.in{border-color:var(--a);box-shadow:0 0 0 2px #ff7a0040,var(--glow)}.pr.in:after{content:"In cart";position:absolute;top:10px;right:10px;background:var(--g);color:#fff;font-size:.72rem;font-weight:700;padding:3px 11px;border-radius:99px;z-index:3;box-shadow:0 4px 10px #04785755}
+.im{display:block;position:relative;width:100%;height:auto;aspect-ratio:1/1;padding:0;border-radius:0;box-shadow:none;background:#fff1e2;overflow:hidden}
+.im img{border-radius:0;transition:transform .6s}.pr:hover .im img{transform:scale(1.07)}
+.im:before{content:"";position:absolute;inset:auto 0 0 0;height:46%;background:linear-gradient(0deg,#fff,#fff0);z-index:1}
+.im:after{content:"";position:absolute;top:0;left:-90%;width:45%;height:100%;background:linear-gradient(100deg,#fff0,#ffffff99,#fff0);transform:skewX(-20deg);transition:left .8s;z-index:2}.pr:hover .im:after{left:140%}
+.tg{position:absolute;top:10px;left:10px;z-index:3;background:#ffffffe6;color:#c2410c;padding:3px 11px;border-radius:99px;font-size:.72rem;letter-spacing:0;text-transform:capitalize;box-shadow:0 2px 8px #0000001a}
+.mt{padding:0 14px 14px;margin-top:-30px;position:relative;z-index:2}.mt h3{font-size:1.02rem;color:#1e3a8a}
+.mt p{font-style:normal;color:#64748b;font-size:.8rem;margin:4px 0 10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.5em}
+.pc{font:800 1.2rem "Bricolage Grotesque",Inter,sans-serif;color:var(--g)}
+.qc{background:#fff;box-shadow:0 2px 8px #1018280f}.qc .ad{background:linear-gradient(180deg,#ff9a3c,#ff6a00)}
+.card{border:1px solid #ffeede;border-radius:var(--r)}
+.sm2{padding:0;overflow:hidden}.sm2 h2{margin:0 0 12px;padding:16px 18px;text-align:left;color:#fff;background:linear-gradient(120deg,#ff9a2e,#ff5a1a);font-size:1.15rem}.sm2>:not(h2){margin-left:18px;margin-right:18px}.sm2 .note{margin-bottom:18px}
+.tot{font-family:"Bricolage Grotesque",Inter,sans-serif;color:var(--g)}
+h3.t{font-size:1.1rem}
+footer{color:#c2410c}
+dialog{box-shadow:0 24px 60px #0006}
+@media(max-width:680px){.grid{grid-template-columns:repeat(2,1fr);gap:12px}.hero{padding:22px 18px}.hero img{display:none}.mt{padding:0 11px 12px}.pc{font-size:1.05rem}.qc button{width:30px}.cartp{padding:7px 11px}}
 </style></head><body>
-<header class="hd"><div class="w"><div class="brand"><img src="https://mj-and-co-testy-eating.vercel.app/logo.jpg" alt="MJ & CO logo"><div><b>MJ & CO</b><small>Tasty, Refreshing, Healthy Eating</small></div></div><div class="hr"><button class="btn gh sm" id="mus" type="button" aria-label="Toggle music">🔇 Music</button><a class="wa" href="https://wa.me/2348102341648">WhatsApp +2348102341648</a></div></div></header>
+<header class="hd"><div class="w"><div class="brand"><img src="https://mj-and-co-testy-eating.vercel.app/logo.jpg" alt="MJ & CO logo"><div><b>MJ & CO</b><small>Tasty, Refreshing, Healthy Eating</small></div></div><div class="hr"><button class="btn gh sm" id="mus" type="button" aria-label="Toggle music">🔇 Music</button><a class="cartp" href="#sum" aria-label="View cart">🛒 <b id="hn">0</b></a><a class="wa" href="https://wa.me/2348102341648">WhatsApp +2348102341648</a></div></div></header>
 <main class="w lay"><section>
 <div class="done" id="done" role="status"></div>
-<div class="card intro"><h1>Place Your Order</h1><p>Order online • Download invoice PDF • Pay to bank • Send receipt to WhatsApp</p><small>Pick your items, fill your details, and we confirm on WhatsApp.</small>
-<div class="ctl"><label class="sr" for="q">Search the menu</label><input id="q" type="search" placeholder="🔍 Search yogurt, parfait, granola, flakes, chops..." autocomplete="off"><button class="btn gh sm" id="cs" type="button" style="display:none">Clear</button></div>
+<div class="hero"><div><h1>Fresh yogurt, parfaits &amp; chops, made daily</h1><p>Pick your favourites, pay by bank transfer or on delivery, and we confirm on WhatsApp.</p><div class="bdg"><span>🍓 Made fresh daily</span><span>🏦 Bank transfer or pay on delivery</span><span>💬 WhatsApp confirmation</span></div></div><img src="https://mj-and-co-testy-eating.vercel.app/logo.jpg" alt="MJ &amp; CO logo"></div>
+<div class="shop"><div class="ctl"><label class="sr" for="q">Search the menu</label><input id="q" type="search" placeholder="🔍 Search yogurt, parfait, granola, flakes, chops..." autocomplete="off"><button class="btn gh sm" id="cs" type="button" style="display:none">Clear</button><select id="sort" aria-label="Sort items"><option value="">Featured</option><option value="pa">Price: low to high</option><option value="pd">Price: high to low</option><option value="az">Name: A–Z</option></select></div>
 <div class="chips" id="chips" role="group" aria-label="Categories"></div><div id="rc" aria-live="polite"></div><div class="grid" id="grid"></div></div>
 <div class="card"><h3 class="t">Special Instructions (Optional)</h3><textarea id="ins" rows="2" placeholder="E.g. No sugar / extra granola"></textarea>
 <div class="media" id="media"></div></div>
@@ -50,7 +86,7 @@ footer{text-align:center;padding:20px;font-weight:700}:focus-visible{outline:3px
 <div class="f2"><div><label class="l" for="dt">Preferred date & time</label><input type="datetime-local" id="dt"></div><div><label class="l" for="pm">Payment method</label><select id="pm"><option value="bank">Bank Transfer</option><option value="pod">Pay on Delivery</option></select></div></div>
 <div class="acts"><button class="btn" id="b1" type="button">Place Order & Generate PDF</button><button class="btn gh" id="b2" type="button">Place Order (Pay on Delivery)</button><button class="btn gh sm" id="b3" type="button">Preview PDF</button><button class="btn g sm" id="b4" type="button" style="display:none">Open WhatsApp</button></div>
 <div id="st" role="alert"></div></div></div></section>
-<aside class="sticky" id="sum"><div class="card sm2"><h2>Order Summary</h2><div id="sl" aria-live="polite"><div class="ln">Your cart is empty</div></div><div class="ln"><span>Subtotal</span><span id="sb">₦0</span></div><div class="ln"><span>Delivery</span><span id="fe">₦0</span></div><div class="tot"><span>Total</span><span id="tt">₦0</span></div>
+<aside class="sticky" id="sum"><div class="card sm2"><h2>🛒 Your Order</h2><div id="sl" aria-live="polite"><div class="ln">Your cart is empty</div></div><div class="ln"><span>Subtotal</span><span id="sb">₦0</span></div><div class="ln"><span>Delivery</span><span id="fe">₦0</span></div><div class="tot"><span>Total</span><span id="tt">₦0</span></div>
 <p class="note">After generating the receipt PDF, send the PDF or a screenshot + your payment receipt to WhatsApp <b>+2348102341648</b> for confirmation.</p></div></aside></main>
 <footer>MJ & CO — CARES</footer>
 <a class="fc" id="fc" href="#sum">🛒 <b id="fn">0</b> items · <b id="ft">₦0</b> — Checkout</a><dialog id="lb" aria-label="Item preview"></dialog>
@@ -81,21 +117,21 @@ const FALLBACK=[
 {id:'chops3',title:'Chops Box C',price:2500,tag:'chops',desc:'Puff × 4, Samosa × 1, Spring Roll × 1, Chicken / Beef × 1 — party favorite mix.',img:'chops.jpg'},
 {id:'chops4',title:'Chops Box D',price:3500,tag:'chops',desc:'Puff × 3, Samosa × 1, Spring Roll × 1, Chicken / Beef Kebab × 1 — rich and spicy delight.',img:'chops.jpg'}];
 let PRODUCTS=FALLBACK.slice();
-const cart={};let cat="all",q="";
+let SV="";const cart={};let cat="all",q="";
 let CATS=["all","yogurt","parfait","granola","flakes","chops"];
 function chips(){$("#chips").innerHTML=CATS.map(c=>{const n=c=="all"?PRODUCTS.length:PRODUCTS.filter(p=>p.tag==c).length;return `<button type="button" class="chip ${c==cat?"on":""}" data-f="${c}" aria-pressed="${c==cat}">${c[0].toUpperCase()+c.slice(1)} (${n})</button>`}).join("")}
-const card=p=>`<article class="pr"><button type="button" class="im" data-z="${p.id}" aria-label="View ${esc(p.title)} larger"><img loading="lazy" src="${esc(IMG(p.img))}" alt="${esc(p.title)}" onerror="this.src=IMG('logo.jpg')"></button><div class="mt"><span class="tg">${p.tag}</span><h3>${esc(p.title)}</h3><p>${esc(p.desc)}</p><div class="ft"><b class="pc">${N(p.price)}</b><div class="qc"><button type="button" data-id="${p.id}" data-d="-1" aria-label="Remove one ${esc(p.title)}">−</button><span id="qty-${p.id}" aria-live="polite">${cart[p.id]||0}</span><button type="button" class="ad" data-id="${p.id}" data-d="1" aria-label="Add one ${esc(p.title)}">+</button></div></div></div></article>`;
-function draw(){const F=PRODUCTS.filter(p=>(cat=="all"||p.tag==cat)&&(p.title+" "+p.desc+" "+p.tag).toLowerCase().includes(q));chips();$("#rc").textContent=F.length+" of "+PRODUCTS.length+" items shown";$("#grid").innerHTML=F.map(card).join("")||'<p class="emp">No items match your search. Clear it or choose All.</p>'}
+const card=p=>`<article class="pr ${cart[p.id]>0?"in":""}" id="pr-${p.id}"><button type="button" class="im" data-z="${p.id}" aria-label="View ${esc(p.title)} larger"><img loading="lazy" src="${esc(IMG(p.img))}" alt="${esc(p.title)}" onerror="this.src=IMG('logo.jpg')"><span class="tg">${esc(p.tag)}</span></button><div class="mt"><h3>${esc(p.title)}</h3><p>${esc(p.desc)}</p><div class="ft"><b class="pc">${N(p.price)}</b><div class="qc"><button type="button" data-id="${p.id}" data-d="-1" aria-label="Remove one ${esc(p.title)}">−</button><span id="qty-${p.id}" aria-live="polite">${cart[p.id]||0}</span><button type="button" class="ad" data-id="${p.id}" data-d="1" aria-label="Add one ${esc(p.title)}">+</button></div></div></div></article>`;
+function draw(){const F=PRODUCTS.filter(p=>(cat=="all"||p.tag==cat)&&(p.title+" "+p.desc+" "+p.tag).toLowerCase().includes(q));if(SV=="pa")F.sort((a,b)=>a.price-b.price);else if(SV=="pd")F.sort((a,b)=>b.price-a.price);else if(SV=="az")F.sort((a,b)=>a.title.localeCompare(b.title));chips();$("#rc").textContent=F.length+" of "+PRODUCTS.length+" items shown";$("#grid").innerHTML=F.map(card).join("")||'<p class="emp">No items match your search. Clear it or choose All.</p>'}
 const fee=sub=>$("#fu").value=="delivery"&&sub>0?+S.deliveryFee:0;
 const items=()=>PRODUCTS.filter(p=>cart[p.id]>0).map(p=>({id:p.id,title:p.title,name:p.title,price:p.price,qty:cart[p.id]}));
 function sum(){const it=items(),sub=it.reduce((a,i)=>a+i.price*i.qty,0),f=fee(sub);
 $("#sl").innerHTML=it.length?it.map(i=>`<div class="ln i"><span>${esc(i.title)} × ${i.qty}</span><span>${N(i.price*i.qty)}</span></div>`).join(""):'<div class="ln">Your cart is empty</div>';
-$("#sb").textContent=N(sub);$("#fe").textContent=N(f);$("#tt").textContent=N(sub+f);$("#fn").textContent=it.reduce((a,i)=>a+i.qty,0);$("#ft").textContent=N(sub+f);$("#fc").classList.toggle("show",it.length>0);$("#adw").style.display=$("#fu").value=="delivery"?"":"none";return{sub,f,total:sub+f}}
+$("#sb").textContent=N(sub);$("#fe").textContent=N(f);$("#tt").textContent=N(sub+f);$("#hn").textContent=$("#fn").textContent=it.reduce((a,i)=>a+i.qty,0);$("#ft").textContent=N(sub+f);$("#fc").classList.toggle("show",it.length>0);$("#adw").style.display=$("#fu").value=="delivery"?"":"none";return{sub,f,total:sub+f}}
 document.addEventListener("click",e=>{const t=e.target,f=t.closest("[data-f]"),d=t.closest("[data-id]"),z=t.closest("[data-z]");
 if(f){cat=f.dataset.f;draw()}
-if(d){const id=d.dataset.id;cart[id]=Math.max(0,(cart[id]||0)+ +d.dataset.d);const s=$("#qty-"+id);if(s)s.textContent=cart[id];sum()}
+if(d){const id=d.dataset.id;cart[id]=Math.max(0,(cart[id]||0)+ +d.dataset.d);const s=$("#qty-"+id);if(s)s.textContent=cart[id];const pc=document.getElementById("pr-"+id);if(pc)pc.classList.toggle("in",cart[id]>0);sum()}
 if(z){const p=PRODUCTS.find(x=>x.id==z.dataset.z);$("#lb").innerHTML=`<img src="${esc(IMG(p.img))}" alt="${esc(p.title)}" onerror="this.src=IMG('logo.jpg')"><h3>${esc(p.title)}</h3><p style="margin:6px 0">${esc(p.desc)}</p><p><b class="pc">${N(p.price)}</b></p><div class="acts"><button class="btn" data-id="${p.id}" data-d="1" onclick="this.closest('dialog').close()">+ Add to cart</button><button class="btn gh" onclick="this.closest('dialog').close()">Close</button></div>`;$("#lb").showModal()}});
-$("#q").oninput=e=>{q=e.target.value.trim().toLowerCase();$("#cs").style.display=q?"inline-flex":"none";draw()};$("#cs").onclick=()=>{$("#q").value="";q="";$("#cs").style.display="none";draw()};$("#fu").onchange=sum;
+$("#q").oninput=e=>{q=e.target.value.trim().toLowerCase();$("#cs").style.display=q?"inline-flex":"none";draw()};$("#cs").onclick=()=>{$("#q").value="";q="";$("#cs").style.display="none";draw()};$("#fu").onchange=sum;$("#sort").onchange=e=>{SV=e.target.value;draw()};
 $("#media").innerHTML=["https://feelgoodfoodie.net/wp-content/uploads/2024/11/Fruit-Yogurt-Parfait-11.jpg","granola.jpg","coconut-flakes.jpg","m6.jpg","chops.jpg","fura.png"].map(s=>`<img loading="lazy" src="${esc(IMG(s))}" alt="MJ & CO sample">`).join("")+`<video src="${IMG("sample-video.mp4")}" muted loop autoplay playsinline></video>`;
 const au=new Audio(IMG("song.mp3"));au.loop=true;$("#mus").onclick=()=>{au.paused?(au.play().catch(()=>{}),$("#mus").textContent="🔊 Music"):(au.pause(),$("#mus").textContent="🔇 Music")};
 const genRef=()=>{const n=new Date();return `${n.getFullYear()}${String(n.getMonth()+1).padStart(2,"0")}${String(n.getDate()).padStart(2,"0")}-MJCO-${Math.floor(10000+Math.random()*90000)}`};
